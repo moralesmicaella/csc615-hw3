@@ -60,7 +60,7 @@ void setup(struct Motor motors[], int n, struct Arrows arrows) {
     pinMode(arrows.ar, OUTPUT);
 }
 
-// sets all the motor pins to low and switches them into input mode
+// sets all the motor and arrow pins to low and switches them into input mode
 void cleanup(struct Motor motors[], int n, struct Arrows arrows) {
     for (int i = 0; i < n; i++) {
         softPwmWrite(motors[i].e, 0);
@@ -87,6 +87,7 @@ void stop(struct Motor motors[], int n, struct Arrows arrows) {
         digitalWrite(motors[i].r, LOW);
     }
 
+    // turns off the light of the arrows in the motorshield
     digitalWrite(arrows.af, LOW); 
     digitalWrite(arrows.ar, LOW); 
 
@@ -108,6 +109,7 @@ void forward(struct Motor motors[], int n, int speed, struct Arrows arrows) {
         digitalWrite(motors[i].r, LOW);
     }
 
+    // lights up the forward arrow in the motorshield
     digitalWrite(arrows.af, HIGH); 
     digitalWrite(arrows.ar, LOW); 
 
@@ -129,6 +131,7 @@ void backward(struct Motor motors[], int n, int speed, struct Arrows arrows) {
         digitalWrite(motors[i].r, HIGH);
     }
 
+    // lights up the backward arrow in the motorshield
     digitalWrite(arrows.af, LOW); 
     digitalWrite(arrows.ar, HIGH); 
 
