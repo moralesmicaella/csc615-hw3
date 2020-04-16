@@ -45,8 +45,11 @@ void sigint_handler(int sig_num) {
 }
 
 // initializes the wiringPi and sets the motor and arrow pins to output mode
-void setup(struct Motor motors[], int n, struct Arrows arrows) {
-    wiringPiSetup();
+int setup(struct Motor motors[], int n, struct Arrows arrows) {
+    if (wiringPiSetup() == -1) {
+        printf("WiringPi Setup failed!\n");
+        return -1;
+    } 
     for (int i = 0; i < n; i++) {
         pinMode(motors[i].e, OUTPUT);
         pinMode(motors[i].f, OUTPUT);
@@ -58,6 +61,7 @@ void setup(struct Motor motors[], int n, struct Arrows arrows) {
     }
     pinMode(arrows.af, OUTPUT);
     pinMode(arrows.ar, OUTPUT);
+    return 0;
 }
 
 // sets all the motor and arrow pins to low and switches them into input mode
@@ -169,7 +173,8 @@ int main(void) {
     // sets the sigint_handler to handle a signal interrupt
     signal(SIGINT, sigint_handler);
     
-    setup(motors, n, arrows);
+    if (setup(motors, n, arrows) == -1) 
+        return -1;
     while (1) {
         // moves the motors forward for 5 seconds
         forward(motors, n, speed, arrows);
