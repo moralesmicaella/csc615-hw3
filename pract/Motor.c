@@ -4,10 +4,10 @@
 #include <softPwm.h>
 #include "Motor.h"
 
-keyboard_interrupt = 0;
+int keyboard_interrupt = 0;
 
 // initializes the wiringPi and sets the motor and arrow pins to output mode
-int setup(Motor motors[], int n, Arrows arrows) {
+int setup(Motor motors[], int n, Arrow arrows) {
     if (wiringPiSetup() == -1) {
         printf("WiringPi Setup failed!\n");
         return -1;
@@ -27,7 +27,7 @@ int setup(Motor motors[], int n, Arrows arrows) {
 }
 
 // sets all the motor and arrow pins to low and switches them into input mode
-void cleanup(Motor motors[], int n, Arrows arrows) {
+void cleanup(Motor motors[], int n, Arrow arrows) {
     for (int i = 0; i < n; i++) {
         softPwmWrite(motors[i].e, 0);
         digitalWrite(motors[i].e, LOW);
@@ -45,7 +45,7 @@ void cleanup(Motor motors[], int n, Arrows arrows) {
 }
 
 // changes the speed to 0% and sets the forward and reverse pins to low
-void stop(Motor motors[], int n, Arrows arrows) {
+void stop(Motor motors[], int n, Arrow arrows) {
     for (int i = 0; i < n; i++) {
         printf("Motor%d stops...\n", motors[i].num);
         softPwmWrite(motors[i].e, 0);
@@ -67,7 +67,7 @@ void stop(Motor motors[], int n, Arrows arrows) {
 
 // sets the enable pin of the motors with the given speed 
 // and sets the forward pin to high and the reverse pin to low
-void forward(Motor motors[], int n, int speed, Arrows arrows) {
+void forward(Motor motors[], int n, int speed, Arrow arrows) {
     for (int i = 0; i < n; i++) {
         printf("Motor%d is moving forward with %d%% speed\n", motors[i].num, speed);
         softPwmWrite(motors[i].e, speed);
@@ -89,7 +89,7 @@ void forward(Motor motors[], int n, int speed, Arrows arrows) {
 
 // sets the enable pin of the motors with the given speed 
 // and sets the forward pin to low and the reverse pin to high
-void backward(Motor motors[], int n, int speed, Arrows arrows) {
+void backward(Motor motors[], int n, int speed, Arrow arrows) {
     for (int i = 0; i < n; i++) {
         printf("Motor%d is moving backward with %d%% speed\n", motors[i].num, speed);
         softPwmWrite(motors[i].e, speed);

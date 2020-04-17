@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <signal.h>
+#include <wiringPi.h>
 #include "Motor.h"
 
 // handles a signal interrupt
@@ -10,14 +13,14 @@ int main(void) {
     // creates the motors and sets their motor pins
     // wiringPi 0 = P11, wiringPi 2 = P13, wiringPi 3 = P15
     // wiringPi 6 = P22, wiringPi 4 = P16, wiringPi 5 = P18
-    struct Motor m1 = {.num = 1, .e = 0, .f = 2, .r = 3};
-    struct Motor m2 = {.num = 2, .e = 6, .f = 4, .r = 5}; 
+    Motor m1 = {.num = 1, .e = 0, .f = 2, .r = 3};
+    Motor m2 = {.num = 2, .e = 6, .f = 4, .r = 5}; 
     
-    struct Motor motors[] = {m1, m2};
+    Motor motors[] = {m1, m2};
     int n = sizeof(motors) / sizeof(motors[0]);
 
     // wiringPi 25 = P37, wiringPi 23 = P33
-    struct Arrows arrows = {.af = 25, .ar = 23};
+    Arrow arrows = {.af = 25, .ar = 23};
 
     int speed = 10;
     
